@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
 const PORT = 3333
-const userRoute = require('./router/user.js') 
+const allRoutes = require('./router/index') 
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 
-app.use("/api/v1/user",userRoute)
+app.use(allRoutes)
 
 app.listen(PORT, () => {
     console.log("App running on port: ", PORT);
