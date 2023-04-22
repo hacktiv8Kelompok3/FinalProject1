@@ -20,5 +20,18 @@ class reflectioncontroller {
             res.status(error?.code || 500).json(error)
         }
     }
+    static async getReflection(req, res) {
+        try {
+            const { id } = req.UserData
+            const data = await db.query(
+                `SELECT * FROM reflections WHERE userid=$1`,
+                [id]
+            );
+            console.log(data.rows)
+            res.status(200).json(data.rows)
+        } catch (error) {
+            res.status(error?.code || 500).json(error)
+        }
+    }
 }
 module.exports = reflectioncontroller
