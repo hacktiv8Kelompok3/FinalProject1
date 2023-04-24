@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 3333
+const PORT = 3334
 const allRoutes = require('./router/index') 
 
 app.use(express.urlencoded({ extended: false }));
