@@ -33,5 +33,24 @@ class reflectioncontroller {
             res.status(error?.code || 500).json(error)
         }
     }
+    static async updateReflection(req,res){
+        try{
+            const { id } = req.UserData
+            const { take_away } = req.body
+            if(!take_away){
+                throw {
+                    code: 400,
+                    message: "required",
+                }
+            }
+            const updateData = await db.query(
+                "UPDATE reflections SET take_away = $1 WHERE userid = $2",
+                [String(take_away),id]
+            )
+            res.status(200).json(updateData.rows[0])
+        }catch(error){
+            res.status(500).json(error)
+        }
+    }
 }
 module.exports = reflectioncontroller
