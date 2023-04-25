@@ -36,19 +36,21 @@ class reflectioncontroller {
     static async updateReflection(req,res){
         try{
             const { id } = req.UserData
-            const { take_away } = req.body
-            const reflectid = parseInt(req.params.id)
-            if(!take_away){
+            let { success, low_point, take_away } = req.body;
+            const reflectid = req.params.id
+             if (!success || !low_point || !take_away) {
                 throw {
                     code: 400,
                     message: "required",
                 }
             }
             const updateData = await db.query(
-                "UPDATE reflections SET take_away = $1 WHERE id = $2 AND userid = $3",
-                [String(take_away),reflectid,id]
+                'update reflections set success = $1, low_point = $2, take_away = $3, updated_at=$4  where id = $5 and userid = $6 returning *',
+                [String(success),String(low_point),String(take_away),new Date(),reflectid,id]
             )
-            res.status(200).json(updateData.rows[0])
+            const data = updateData.rows
+            console.log(data)
+            res.status(200).json(updateData.rows)
         }catch(error){
             res.status(500).json(error)
         }
@@ -56,13 +58,14 @@ class reflectioncontroller {
     static async deleteReflection(req,res){
         try{
             const { id } = req.UserData
+            console.log(id)
             const reflectid = parseInt(req.params.id)
+            console.log(reflectid)
             const deleteData = await db.query(
-                "DELETE FROM reflections WHERE id = $1 AND userid = $2",
-                [id,reflectid]
+                "DELETE FROM reflections WHERE id = $1 AND userid = $2 returning *",
+                [reflectid,id]
             )
-            res.status(200).json(deleteData.rows[0])
-        }catch(error){
+            return res.status(200).json({message: `reflection with id ${id} success delete`})        }catch(error){
             res.status(500).json(error)
         }
     }
