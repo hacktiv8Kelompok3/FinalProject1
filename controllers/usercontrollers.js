@@ -40,7 +40,9 @@ class usercontroller{
             }
 
             const token = generateToken({ email: convert.email })
-            res.status(200).json({token})
+            res.status(200).json(
+                { token }
+            )
         } catch (error) {
             res.status(error?.code || 500).json(error)
             console.log(error)
@@ -93,7 +95,8 @@ class usercontroller{
 
             const access_token = generateToken(response)
 
-            res.status(200).json({access_token})
+            res.status(200).json({ access_token })
+            console.log("login sucsess")
 
         } catch (error) {
             res.status(error?.code || 500).json(error)
