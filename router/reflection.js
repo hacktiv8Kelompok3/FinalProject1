@@ -5,5 +5,6 @@ const reflection = require('../controllers/reflectioncontrollers')
 router.post('/', reflection.createReflection)
 router.get('/', reflection.getReflection)
 router.put('/',reflection.updateReflection)
+router.delete('/:id',reflection.deleteReflection)
 
 module.exports = router

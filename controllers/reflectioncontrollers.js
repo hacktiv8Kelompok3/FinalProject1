@@ -52,5 +52,18 @@ class reflectioncontroller {
             res.status(500).json(error)
         }
     }
+    static async deleteReflection(req,res){
+        try{
+            const { id } = req.UserData
+            const reflectid = parseInt(req.params.id)
+            const deleteData = await db.query(
+                "DELETE FROM reflections WHERE id = $1 AND userid = $2",
+                [id,reflectid]
+            )
+            res.status(200).json(deleteData.rows[0])
+        }catch(error){
+            res.status(500).json(error)
+        }
+    }
 }
 module.exports = reflectioncontroller
