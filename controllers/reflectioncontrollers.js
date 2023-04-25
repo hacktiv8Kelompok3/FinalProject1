@@ -37,6 +37,7 @@ class reflectioncontroller {
         try{
             const { id } = req.UserData
             const { take_away } = req.body
+            const reflectid = parseInt(req.params.id)
             if(!take_away){
                 throw {
                     code: 400,
@@ -44,8 +45,8 @@ class reflectioncontroller {
                 }
             }
             const updateData = await db.query(
-                "UPDATE reflections SET take_away = $1 WHERE userid = $2",
-                [String(take_away),id]
+                "UPDATE reflections SET take_away = $1 WHERE id = $2 AND userid = $3",
+                [String(take_away),reflectid,id]
             )
             res.status(200).json(updateData.rows[0])
         }catch(error){
