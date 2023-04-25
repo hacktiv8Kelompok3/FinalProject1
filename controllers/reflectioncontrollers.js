@@ -1,6 +1,6 @@
 const db = require('../config/connection')
 
-class reflectioncontroller { 
+class reflectioncontroller {
     static async createReflection(req, res) {
         try {
             const { id } = req.UserData
@@ -13,7 +13,7 @@ class reflectioncontroller {
             }
             const insertData = await db.query(
                 'INSERT INTO reflections (success,low_point,take_away,userid) VALUES ($1,$2,$3,$4) RETURNING *',
-                [String(success), String(low_point), String(take_away),id]
+                [String(success), String(low_point), String(take_away), id]
             )
             res.status(200).json(insertData.rows[0])
         } catch (error) {
